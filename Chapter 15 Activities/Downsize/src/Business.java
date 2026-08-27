@@ -16,11 +16,11 @@ public class Business
         var i = employeeNames.listIterator();
         int index = 0;
         while (i.hasNext()) {
+            index++;
             i.next();
-            if (index % n != 0) {
+            if (index % n == 0) {
                 i.remove();
             }
-            index++;
         }
     }
 }

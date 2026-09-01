@@ -26,14 +26,16 @@ public class ListUtil
         }
         iterator = strings.listIterator();
         iterator.next();
-        iterator.remove();
-        strings.addLast(first);
+        int countB = 1;
         String currValue = "";
         for (int i = 0; i < count - 1; i++) {
-            iterator = strings.listIterator();
+            for (int j = 0; j < countB; j++) {
+                iterator.next();
+            }
             currValue = iterator.next();
             iterator.remove();
-            strings.addLast(currValue);
+            iterator = strings.listIterator();
+            iterator.add(currValue);
         }
         System.out.println(strings);
     }

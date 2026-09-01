@@ -19,6 +19,8 @@ public class ListUtil
         while (iterator.hasNext()) {
             if (count == 0) {
                 first = iterator.next();
+            } else {
+                iterator.next();
             }
             count++;
         }
@@ -27,7 +29,7 @@ public class ListUtil
         iterator.remove();
         strings.addLast(first);
         String currValue = "";
-        for (int i = 1; i < count; i++) {
+        for (int i = 0; i < count - 1; i++) {
             iterator = strings.listIterator();
             currValue = iterator.next();
             iterator.remove();

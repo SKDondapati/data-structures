@@ -24,12 +24,13 @@ public class ListUtil
             }
             count++;
         }
+
         iterator = strings.listIterator();
         iterator.next();
-        int countB = 1;
+        iterator.remove();
         String currValue = "";
-        for (int i = 0; i < count - 1; i++) {
-            for (int j = 0; j < countB; j++) {
+        for (int i = 0; i < count-1; i++) {
+            for (int j = 0; j < i-1; j++) {
                 iterator.next();
             }
             currValue = iterator.next();
@@ -37,6 +38,9 @@ public class ListUtil
             iterator = strings.listIterator();
             iterator.add(currValue);
         }
-        System.out.println(strings);
+        while (iterator.hasNext()) {
+            iterator.next();
+        }
+        iterator.add(first);
     }
 }

@@ -8,7 +8,7 @@ public class SudokuSolver {
     private int[][] grid;
     private ArrayList<Set<Integer>> rows;
     private ArrayList<Set<Integer>> cols;
-    private ArrayList<Set<int[][]>> squares;
+    private ArrayList<Set<Integer>> squares;
     private Set<Integer> nums;
     
 
@@ -71,12 +71,13 @@ public class SudokuSolver {
         // ...
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++){
-                Set<int[][]> squaresA = new HashSet<>();
+                Set<Integer> squaresA = new HashSet<>();
                     for (int a = i*3; a < i*3 + 3; a++){
                         for (int b = j*3; b < j*3 + 3; b++){
-                            this.squares.add(squaresA);
+                            squaresA.add(grid[a][b]);
                         }
                     }
+                    this.squares.add(squaresA);
                  
             }
         }
@@ -130,13 +131,16 @@ public class SudokuSolver {
             Properly indexing the squares list of sets is tricky. Verify that your
             algorithm is correct.
          */
+
+         
+
         Set<Integer> possibleNums = new HashSet<Integer>();
         possibleNums.addAll(this.nums);
         
         // 
         possibleNums.removeAll(this.rows.get(nextRow));
-        possibleNums.removeAll(this.rows.get(nextCol));
-        //squares??? how to get them?
+        possibleNums.removeAll(this.cols.get(nextCol));
+        possibleNums.removeAll(this.squares.get(mapCellToSquare(nextRow, nextCol)));
 
         // if there are no possible numbers, we cannot solve the board in its current state
         if (possibleNums.isEmpty()) {
@@ -147,6 +151,9 @@ public class SudokuSolver {
         for (Integer possibleNum : possibleNums) {
             // update the grid and all three corresponding sets with possibleNum
             grid[nextRow][nextCol] = possibleNum;
+            this.rows.get(nextRow).add(possibleNum);
+            this.cols.get(nextCol).add(possibleNum);
+            this.squares.get(mapCellToSquare(nextRow, nextCol)).add(possibleNum);
 
             // recursively solve the board
             if (this.solve()) {
@@ -159,9 +166,14 @@ public class SudokuSolver {
                  sets.
                  */
                 // ...
+                
                 grid[nextRow][nextCol] = 0;
-                this.rows.remove(possibleNum);
-                this.cols.remove(possibeNum;)
+
+                this.rows.get(nextRow).remove(possibleNum);
+                this.cols.get(nextCol).remove(possibleNum);
+                this.squares.get(mapCellToSquare(nextRow, nextCol)).remove(possibleNum);
+                
+
             }
         }
 
@@ -191,7 +203,10 @@ public class SudokuSolver {
 
         // ...
 
-        return 0;
+        int bigRow = row/3;
+        int bigCol = col/3;
+
+        return bigRow * 3 + bigCol;
     }
 
     public static void main(String[] args) {

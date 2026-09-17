@@ -69,11 +69,11 @@ public class SudokuSolver {
             6 7 8
          */
         // ...
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++){
+        for (int i = 0; i < M; i++) {
+            for (int j = 0; j < M; j++){
                 Set<Integer> squaresA = new HashSet<>();
-                    for (int a = i*3; a < i*3 + 3; a++){
-                        for (int b = j*3; b < j*3 + 3; b++){
+                    for (int a = i*M; a < i*M + M; a++){
+                        for (int b = j*M; b < j*M + M; b++){
                             squaresA.add(grid[a][b]);
                         }
                     }
@@ -203,10 +203,10 @@ public class SudokuSolver {
 
         // ...
 
-        int bigRow = row/3;
-        int bigCol = col/3;
+        int bigRow = row/M;
+        int bigCol = col/M;
 
-        return bigRow * 3 + bigCol;
+        return bigRow * M + bigCol;
     }
 
     public static void main(String[] args) {

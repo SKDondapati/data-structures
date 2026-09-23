@@ -13,6 +13,14 @@ public class Business
      */
     public static void downsize(LinkedList<String> employeeNames, int n)
     {
-        ...
+        var i = employeeNames.listIterator();
+        int index = 0;
+        while (i.hasNext()) {
+            index++;
+            i.next();
+            if (index % n == 0) {
+                i.remove();
+            }
+        }
     }
 }

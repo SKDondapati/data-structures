@@ -8,12 +8,16 @@ import java.util.NoSuchElementException;
 */
 public class LinkedList
 {
-
+    // first refers to the head (first Node) of the list
+    // If the list is empty, first will be null
+    private Node first;
 
     /**
         Constructs an empty linked list.
     */
-
+    public LinkedList() {
+        this.first = null;
+    }
 
 
 
@@ -30,7 +34,15 @@ public class LinkedList
         @return the removed element
     */
 
+    public Object removeFirst() {
+        if (this.first == null) {
+            throw new NoSuchElementException();
+        }
 
+        Object element = this.first.data;
+        this.first = this.first.next;
+        return element;
+    }
 
 
 
@@ -39,7 +51,12 @@ public class LinkedList
         @param element the element to add
     */
 
-
+    public void addFirst(Object element) {
+        Node newNode = new Node();
+        newNode.data = element;
+        newNode.next = first;
+        this.first = newNode;
+    }
 
 
 
@@ -53,26 +70,53 @@ public class LinkedList
 
 
     //Class Node
+    // Node is static because it does NOT need to access anything in LinkedLists
+    // The object will store information, not interact
+    static class Node {
+        public Object data;
+        public Node next;
+    }
 
 
-    class LinkedListIterator //implements ListIterator
+    class LinkedListIterator implements ListIterator
     {
-      //private data
-
+        //private data
+        private Node position;
+        private Node previous;
+        private boolean isAfterNext;
 
         /**
             Constructs an iterator that points to the front
             of the linked list.
         */
+        public LinkedListIterator() {
+            position = null;
+            previous = null;
+            isAfterNext = false;
+        }
 
 
         /**
             Moves the iterator past the next element.
             @return the traversed element
         */
+        public Object next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
 
+            previous = position;
 
+            if (position == null) {
+                position = first;
+            } else {
+                position = position.next;
+            }
 
+            isAfterNext = true;
+            
+            return position.data;
+        }
 
 
         /**
@@ -80,6 +124,15 @@ public class LinkedList
             @return true if there is an element after the iterator position
         */
 
+        public boolean hasNext() {
+            // Check if the list is empty if the iterator hasn't moved
+            if (position == null) {
+                return first != null;
+            }
+            
+            // The iterator has moved so check the next node
+            return position.next != null;
+        }
 
         /**
             Adds an element before the iterator position
@@ -87,7 +140,23 @@ public class LinkedList
             @param element the element to add
         */
 
+        public void add(Object element) {
+            // Check if the iterator is at the beginning
+            if (position == null) {
+                addFirst(element);
+                position = first;
+            } else {
+                Node newNode = new Node();
+                newNode.data = element;
+                newNode.next = position.next;
 
+                // Set the next element of the CURRENT position to point to our new node
+                position.next = newNode;
+                //previous = position;
+                position = newNode;
+            }
+            isAfterNext = false;
+        }
 
 
 
@@ -97,7 +166,22 @@ public class LinkedList
             only be called after a call to the next() method.
         */
 
+        public void remove() {
+            if (!isAfterNext) {
+                throw new IllegalStateException();
+            }
 
+            // Check if the iterator is at the beginning
+            if (position == first) {
+                removeFirst();
+                position = null;
+            } else {
+                previous.next = position.next;
+                position = previous;
+            }
+            
+            isAfterNext = false;
+        }
 
 
 

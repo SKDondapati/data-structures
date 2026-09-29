@@ -1,3 +1,4 @@
+import java.nio.channels.IllegalSelectorException;
 import java.util.NoSuchElementException;
 
 /**
@@ -65,8 +66,40 @@ public class LinkedList
         @return an iterator for iterating through this list
     */
 
+    public Object getFirst() {
+        if (this.first == null) {
+            throw new NoSuchElementException();
+        }
 
+        return this.first.data;
+    }
 
+    public ListIterator listIterator() {
+        return new LinkedListIterator();
+    }
+
+    public String toString() {
+        if (first == null) {
+            return "[]";
+        }
+        
+        // StringBuilder is mutable
+        // It is more efficient for manipulating strings
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        Node current = first;
+        while (current != null) {
+            sb.append(current.data);
+            current = current.next;
+            if (current != null) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+
+        return sb.toString();
+    }
 
 
     //Class Node
@@ -192,6 +225,15 @@ public class LinkedList
             @param element the element to set
         */
 
+        public void set(Object element) {
+            if (!isAfterNext) {
+                throw new IllegalStateException();
+            }
+
+            position.data = element;
+
+            // We don't have to reset isAfterNext because the structure of the list did not change
+        }
 
 
 

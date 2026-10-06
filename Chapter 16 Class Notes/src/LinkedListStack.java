@@ -21,7 +21,13 @@ public class LinkedListStack
      * @param element the element to add
     */
 
-
+    public void add(Object element) {
+        Node current = first;
+        while (current != null) {
+            current = current.next;
+        }
+        current.data = element;
+    }
 
 
 

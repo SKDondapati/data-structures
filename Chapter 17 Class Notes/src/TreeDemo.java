@@ -23,9 +23,9 @@ public class TreeDemo
 
       System.out.println("Binary Tree Root" + bt1.data());
       System.out.println("Binary Tree Height: " + bt1.height());
-      bt1.output(bt1);
+      //bt1.output(bt1);
    }
 
    
-   }
+   
 }

@@ -20,7 +20,7 @@ public class TreeTester
       t.remove("B"); // Removing element with one child
       t.remove("F"); // Removing element with two children
       t.remove("D"); // Removing root
-      t.print();
+      //t.print();
       System.out.println("Expected: C E G H I J");
    }
 }
